@@ -68,6 +68,9 @@ class Dataset2D(Dataset):
                 if self.dataset_name == 'posetrack':
                     db_file = osp.join(TCMR_DB_DIR, f'{self.dataset_name}_{self.set}_db.pt')
 
+            elif self.load_opt == '3D_Human_Pose':
+                if self.dataset_name == 'posetrack':
+                    db_file = osp.join(TCMR_DB_DIR, f'{self.dataset_name}_{self.set}_db.pt')
             # if self.dataset_name == 'pennaction':
             #     db_file = osp.join(TCMR_DB_DIR, f'{self.dataset_name}_{set}_scale12_db.pt')
 

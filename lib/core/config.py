@@ -30,6 +30,7 @@ PENNACTION_DIR = 'data/penn_action'
 POSETRACK_DIR = 'data/posetrack'
 BASE_DATA_DIR = 'data/base_data'
 BEDLAM_DIR = 'E:/BEDLAM_image'
+EMDB_DIR = 'E:/EMDB'
 
 # Configuration variables
 cfg = CN()
@@ -123,7 +124,7 @@ def update_cfg(cfg_file):
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--cfg', type=str, default='./configs/config.yaml', help='cfg file path')
-    parser.add_argument('--gpu', type=str, default='1', help='gpu num')
+    parser.add_argument('--gpu', type=str, default='0', help='gpu num')
     # evaluation options
     parser.add_argument('--dataset', type=str, default='3dpw', help='pick from 3dpw, mpii3d, h36m')
     parser.add_argument('--seq', type=str, default='', help='render target sequence')

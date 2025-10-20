@@ -5,7 +5,10 @@ import torch
 import numpy as np
 import os.path as osp
 from smplx import SMPL as _SMPL
-from smplx.body_models import ModelOutput
+class ModelOutput:
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
 from smplx.lbs import vertices2joints
 
 from lib.core.config import BASE_DATA_DIR
@@ -63,6 +66,13 @@ class SMPL(_SMPL):
 
     def __init__(self, *args, **kwargs):
         super(SMPL, self).__init__(*args, **kwargs)
+        # Ensure shapedirs last dimension matches the number of betas
+        try:
+            b_dim = self.betas.shape[1]
+            if self.shapedirs.shape[-1] != b_dim:
+                self.register_buffer('shapedirs', self.shapedirs[..., :b_dim].contiguous())
+        except Exception:
+            pass
         joints = [JOINT_MAP[i] for i in JOINT_NAMES]
         J_regressor_extra = np.load(JOINT_REGRESSOR_TRAIN_EXTRA)
         self.register_buffer('J_regressor_extra', torch.tensor(J_regressor_extra, dtype=torch.float32))
@@ -85,6 +95,6 @@ class SMPL(_SMPL):
 
 
 def get_smpl_faces():
-    print("Get SMPL faces")
-    smpl = SMPL(SMPL_MODEL_DIR, batch_size=1, create_transl=False)
+    # print("Get SMPL faces")
+    smpl = SMPL(SMPL_MODEL_DIR, batch_size=1, create_transl=False, num_betas=10)
     return smpl.faces

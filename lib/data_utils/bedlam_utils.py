@@ -114,7 +114,7 @@ def compute_smpl_joints49(pose: np.ndarray, betas: np.ndarray, transl: np.ndarra
     - transl: (N,3)
     Returns (N,49,3)
     """
-    smpl = smpl_model if smpl_model is not None else SMPL(SMPL_MODEL_DIR, batch_size=1, create_transl=False)
+    smpl = smpl_model if smpl_model is not None else SMPL(SMPL_MODEL_DIR, batch_size=1, create_transl=False, num_betas=10)
     with torch.no_grad():
         p = torch.from_numpy(_to_2d_numeric(pose)).float()
         bt = _to_2d_numeric(betas)
@@ -159,7 +159,7 @@ def read_data(npz_dir: str, images_dir: str, set_name: str,
     }
 
     model = spin.get_pretrained_hmr()
-    smpl_model = SMPL(SMPL_MODEL_DIR, batch_size=1, create_transl=False)
+    smpl_model = SMPL(SMPL_MODEL_DIR, batch_size=1, create_transl=False, num_betas=10)
 
     # Collect npz files
     all_npz = [osp.join(npz_dir, f) for f in os.listdir(npz_dir) if f.endswith('.npz')]
@@ -544,7 +544,7 @@ def main():
             all_npz = [p for p in all_npz if osp.splitext(osp.basename(p))[0] in allowed]
 
         model = spin.get_pretrained_hmr()
-        smpl_model = SMPL(SMPL_MODEL_DIR, batch_size=1, create_transl=False)
+        smpl_model = SMPL(SMPL_MODEL_DIR, batch_size=1, create_transl=False, num_betas=10)
         for npz_path in tqdm(sorted(all_npz), desc=f'BEDLAM per-scene {args.set}'):
             scene = osp.splitext(osp.basename(npz_path))[0]
             out_name = f'bedlam_{scene}_{args.set}_db.pt'

@@ -122,8 +122,17 @@ class Dataset3D(Dataset):
                 if self.dataset_name == 'mpii3d':
                     db_file = osp.join(TCMR_DB_DIR, f'{self.dataset_name}_{self.set}_scale12_db.pt')
                 elif self.dataset_name == 'h36m':
-                    db_file = osp.join(TCMR_DB_DIR, f'{self.dataset_name}_{self.set}_25fps_nosmpl_db.pt')
+                    db_file = osp.join(TCMR_DB_DIR, f'{self.dataset_name}_{self.set}_25fps_db.pt')
 
+            elif self.load_opt == '3D_Human_Pose':
+                if self.dataset_name == 'h36m':
+                    db_file = osp.join(TCMR_DB_DIR, f'{self.dataset_name}_{self.set}_25fps_nosmpl_db.pt')
+                elif self.dataset_name == '3dpw':
+                    db_file = osp.join(TCMR_DB_DIR, f'{self.dataset_name}_{self.set}_db.pt')
+                elif self.dataset_name == 'bedlam':
+                    db_file = osp.join(TCMR_DB_DIR, f'{self.dataset_name}_{self.set}_db.pt')
+                
+                
         elif self.set == 'val' and self.dataset_name == 'h36m':
             # if self.load_opt == 'repr_table4_h36m_mpii3d_model':
             #     db_file = osp.join(TCMR_DB_DIR, f'{self.dataset_name}_{self.set}_25fps_tight_db.pt')
@@ -133,6 +142,9 @@ class Dataset3D(Dataset):
         elif self.set == 'val' and self.dataset_name == 'mpii3d':
             db_file = osp.join(TCMR_DB_DIR, f'{self.dataset_name}_{self.set}_scale12_db.pt')
 
+        elif self.set == 'val' or self.set == 'test' and self.dataset_name == '3dpw':
+            db_file = osp.join(TCMR_DB_DIR, f'{self.dataset_name}_{self.set}_db.pt')
+            
         if osp.isfile(db_file):
             db = joblib.load(db_file)
         else:
@@ -152,7 +164,7 @@ class Dataset3D(Dataset):
 
         is_train = self.set == 'train'
 
-        if self.dataset_name == '3dpw':
+        if self.dataset_name == '3dpw' or self.dataset_name == 'bedlam':
             kp_2d = convert_kps(self.get_sequence(start_index, end_index, self.db['joints2D']), src='common', dst='spin')
             kp_3d = self.get_sequence(start_index, end_index, self.db['joints3D'])
 
@@ -181,7 +193,7 @@ class Dataset3D(Dataset):
 
         kp_3d_tensor = np.zeros((self.seqlen, nj, 3), dtype=np.float16)
 
-        if self.dataset_name == '3dpw':
+        if self.dataset_name == '3dpw' or self.dataset_name == 'bedlam':
             pose = self.get_sequence(start_index, end_index, self.db['pose'])
             shape = self.get_sequence(start_index, end_index, self.db['shape'])
 

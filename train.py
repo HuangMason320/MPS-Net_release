@@ -104,7 +104,7 @@ def main(cfg):
         attention_dropout=None if cfg.TRAIN.MOT_DISCR.FEATURE_POOL !='attention' else cfg.TRAIN.MOT_DISCR.ATT.DROPOUT
     ).to(cfg.DEVICE)
     
-    motion_discriminator.load_state_dict(checkpoint['disc_motion_state_dict'])
+    # motion_discriminator.load_state_dict(checkpoint['disc_motion_state_dict'])
     
     dis_motion_optimizer = get_optimizer(
         model=motion_discriminator,

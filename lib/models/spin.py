@@ -88,7 +88,8 @@ class HMR(nn.Module):
         self.smpl = SMPL(
             SMPL_MODEL_DIR,
             batch_size=64,
-            create_transl=False
+            create_transl=False,
+            num_betas=10
         ).to('cpu')
 
         for m in self.modules():
@@ -227,6 +228,7 @@ class Regressor(nn.Module):
             SMPL_MODEL_DIR,
             batch_size=64,
             create_transl=False,
+            num_betas=10
         )
 
         mean_params = np.load(smpl_mean_params)

@@ -227,3 +227,11 @@ __marimo__/
 .npy
 .json
 .pkl
+.jpg
+.zip
+.DS_Store
+.npz
+.pt
+.vscode/
+data/
+experiments/
