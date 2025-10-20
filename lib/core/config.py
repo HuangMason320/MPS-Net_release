@@ -29,6 +29,7 @@ H36M_DIR = 'data/h36m'
 PENNACTION_DIR = 'data/penn_action'
 POSETRACK_DIR = 'data/posetrack'
 BASE_DATA_DIR = 'data/base_data'
+BEDLAM_DIR = 'E:/BEDLAM_image'
 
 # Configuration variables
 cfg = CN()

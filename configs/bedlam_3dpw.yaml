@@ -1,0 +1,58 @@
+TITLE: '3D_Human_Pose'
+DEBUG: false
+DEBUG_FREQ: 5
+LOGDIR: ''
+DEVICE: 'cuda'
+EXP_NAME: 'bedlam_and_3dpw'
+OUTPUT_DIR: 'experiments/bedlam_3dpw'
+NUM_WORKERS: 0
+SEED_VALUE: -1                
+DATASET:
+  SEQLEN: 16
+LOSS:
+  KP_2D_W: 300.0
+  KP_3D_W: 300.0
+  SHAPE_W: 0.06
+  POSE_W: 60.0
+  D_MOTION_LOSS_W: 0.5
+TRAIN:
+  BATCH_SIZE: 32
+  NUM_ITERS_PER_EPOCH: 500
+  PRETRAINED: ''     # Change the field to the checkpoint you would like to evaluate
+  PRETRAINED_REGRESSOR: '' #'data/base_data/spin_model_checkpoint.pth.tar'
+  RESUME: '' #'experiments\09-10-2025_09-20-34_Human36M_Pretrain\model_best.pth.tar' #'experiments\Train_BEDLAM_Test_3DPW_wo_regressor\model_best.pth.tar'
+  START_EPOCH: 0
+  END_EPOCH: 50
+  LR_PATIENCE: 5
+  DATA_2D_RATIO: 0.6
+  OVERLAP: false
+  DATASETS_2D:
+    - 'Insta'
+    #- 'PoseTrack'
+  DATASETS_3D:
+    - 'ThreeDPW'
+    # - 'Human36M'
+    # - 'EMDB'
+    - 'BEDLAM'
+  DATASET_EVAL: 'ThreeDPW'
+  GEN_OPTIM: 'Adam'
+  GEN_LR: 0.00005
+  GEN_WD: 0.0
+  GEN_MOMENTUM: 0.9
+  MOT_DISCR:
+    OPTIM: 'Adam'
+    LR: 0.0001
+    WD: 0.0001
+    MOMENTUM: 0.9
+    HIDDEN_SIZE: 1024
+    NUM_LAYERS: 2
+    FEATURE_POOL: 'attention'
+    ATT:
+      LAYERS: 3
+      SIZE: 1024
+      DROPOUT: 0.2
+MODEL:
+  TEMPORAL_TYPE: 'gru'
+  TGRU:
+    NUM_LAYERS: 2
+    HIDDEN_SIZE: 1024
